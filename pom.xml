@@ -9,6 +9,27 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
 
+    <licenses>
+        <license>
+            <name>MIT</name>
+            <url>https://github.com/rowan-vr/maven-api-dist-generator/blob/main/LICENSE</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:git://github.com/rowan-vr/maven-api-dist-generator.git</connection>
+        <developerConnection>scm:git:ssh://github.com:rowan-vr/maven-api-dist-generator.git</developerConnection>
+        <url>https://github.com/rowan-vr/maven-api-dist-generator/tree/master</url>
+    </scm>
+
+    <developers>
+        <developer>
+            <name>rowan-vr</name>
+            <email>rowan@rvr.dev</email>
+        </developer>
+    </developers>
+
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -16,6 +37,17 @@
     </properties>
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.7</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

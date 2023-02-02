@@ -8,7 +8,6 @@ import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.*;
 import org.apache.maven.project.MavenProject;
@@ -31,23 +30,44 @@ import java.util.Set;
 
 import static net.bytebuddy.matcher.ElementMatchers.is;
 
+/**
+ * The {@link org.apache.maven.plugin.Mojo} class for the generate-api-dist goal. This goal will create a version of
+ * your jar with all method bodies removed, useful when you want others to be able to use your project's api, but
+ * not have the executable (source) files.
+ */
 @Mojo(name = "generate-api-dist", defaultPhase = LifecyclePhase.PROCESS_CLASSES, requiresDependencyResolution = ResolutionScope.TEST)
 public class GenerateApiMojo extends AbstractMojo {
 
+    /**
+     * The {@link MavenProject}
+     */
     @Parameter(defaultValue = "${project}", required = true, readonly = true)
     private MavenProject project;
 
+    /**
+     * The {@link MavenSession}
+     */
     @Parameter( defaultValue = "${session}", readonly = true, required = true )
     private MavenSession session;
 
+    /**
+     * The {@link MavenArchiveConfiguration}
+     */
     @Parameter
     private MavenArchiveConfiguration archive = new MavenArchiveConfiguration();
 
+    /**
+     * The {@link MavenProjectHelper}
+     */
     @Component
     private MavenProjectHelper projectHelper;
 
+    /**
+     * The main method of this mojo
+     * @throws MojoFailureException when an exception occurred during the run
+     */
     @Override
-    public void execute() throws MojoExecutionException, MojoFailureException {
+    public void execute() throws MojoFailureException {
         this.getLog().info("Generating api classes...");
 
         File root = new File(project.getBuild().getOutputDirectory());
@@ -97,22 +117,29 @@ public class GenerateApiMojo extends AbstractMojo {
         }
     }
 
+    /**
+     * Creates a class name (including package) from a file and the root directory. An example would be
+     * {@code /src/main/java/dev/rvr/SomeClass} with root directory {@code /src/main/java} gives {@code dev.rvr.SomeClass}
+     * @param root The root of the source code
+     * @param file The file to find the class name of
+     * @return The class name (including package) of the file with given root.
+     */
     private String classNameOfFile(File root, Path file) {
         return root.toURI().relativize(file.toUri()).getPath().replaceAll("/", ".").replace(".class", "");
     }
 
+    /**
+     * Get the class loader of a {@link MavenProject}
+     * @param project The maven project to get the {@link ClassLoader} for.
+     * @return The {@link ClassLoader} of the provided project.
+     */
     private ClassLoader getClassLoader(MavenProject project) {
-        return getClassLoader(project, false);
-    }
-
-    private ClassLoader getClassLoader(MavenProject project, boolean excludeOutput) {
         try {
             List classpathElements = new ArrayList();
-            if (!excludeOutput) {
-                classpathElements.addAll(project.getCompileClasspathElements());
-                classpathElements.add(project.getBuild().getOutputDirectory());
-                classpathElements.add(project.getBuild().getTestOutputDirectory());
-            }
+            classpathElements.addAll(project.getCompileClasspathElements());
+            classpathElements.add(project.getBuild().getOutputDirectory());
+            classpathElements.add(project.getBuild().getTestOutputDirectory());
+
             Set<Artifact> dependencies = project.getArtifacts();
             for (Artifact artifact : dependencies) {
                 classpathElements.add(artifact.getFile().getAbsolutePath());
@@ -130,11 +157,15 @@ public class GenerateApiMojo extends AbstractMojo {
         }
     }
 
+    /**
+     * Create a Jar archive of the generated class files in the output folder used by this plugin.
+     * @return The resulting archive {@link File}
+     */
     private File createArchive() {
         File jarFile = getJarFile(new File(project.getBuild().getDirectory()), project.getArtifactId()+"-"+project.getVersion(), "api");
 
         MavenArchiver archiver = new MavenArchiver();
-        archiver.setCreatedBy("Maven API Generator", "dev.rvr","maven-interfaces-generator");
+        archiver.setCreatedBy("Maven API Generator", "dev.rvr","maven-api-dist-generator");
         archiver.setArchiver(new JarArchiver());
         archiver.setOutputFile(jarFile);
 
@@ -148,7 +179,14 @@ public class GenerateApiMojo extends AbstractMojo {
         }
     }
 
-    protected File getJarFile(File basedir, String resultFinalName, String classifier) {
+    /**
+     * Get the jar file location for given properties.
+     * @param basedir The base dir for the file
+     * @param resultFinalName The final name of the file
+     * @param classifier The optional classifier
+     * @return The {@link File} for the output jar with the given properies.
+     */
+    private File getJarFile(File basedir, String resultFinalName, String classifier) {
         if (basedir == null) {
             throw new IllegalArgumentException("basedir is not allowed to be null");
         }
