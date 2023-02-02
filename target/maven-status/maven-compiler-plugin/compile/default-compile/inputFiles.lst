@@ -1,2 +1,4 @@
-/home/rowan/IdeaProjects/maven-interfaces-plugin/src/main/java/dev/rvr/interfacesplugin/GenerateInterfacesMojo.java
-/home/rowan/IdeaProjects/maven-interfaces-plugin/src/main/java/dev/rvr/Main.java
+/home/rowan/programmeren/maven-interface-generator/src/main/java/dev/rvr/SomeEnum.java
+/home/rowan/programmeren/maven-interface-generator/src/main/java/dev/rvr/TestingThing.java
+/home/rowan/programmeren/maven-interface-generator/src/main/java/dev/rvr/Main.java
+/home/rowan/programmeren/maven-interface-generator/src/main/java/dev/rvr/interfacesplugin/GenerateInterfacesMojo.java

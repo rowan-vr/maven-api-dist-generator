@@ -12,6 +12,7 @@
   <mojos>
     <mojo>
       <goal>generate-interfaces</goal>
+      <requiresDependencyResolution>test</requiresDependencyResolution>
       <requiresDirectInvocation>false</requiresDirectInvocation>
       <requiresProject>true</requiresProject>
       <requiresReports>false</requiresReports>
@@ -24,7 +25,15 @@
       <instantiationStrategy>per-lookup</instantiationStrategy>
       <executionStrategy>once-per-session</executionStrategy>
       <threadSafe>false</threadSafe>
-      <parameters/>
+      <parameters>
+        <parameter>
+          <name>archive</name>
+          <type>org.apache.maven.archiver.MavenArchiveConfiguration</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description></description>
+        </parameter>
+      </parameters>
     </mojo>
   </mojos>
 </plugin>
