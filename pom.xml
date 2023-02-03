@@ -4,7 +4,7 @@
 
     <groupId>dev.rvr</groupId>
     <artifactId>maven-api-dist-generator</artifactId>
-    <version>1.0</version>
+    <version>1.0-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
 
     <licenses>
@@ -17,9 +17,8 @@
 
     <scm>
         <connection>scm:git:git://github.com/rowan-vr/maven-api-dist-generator.git</connection>
-        <developerConnection>scm:git:ssh://github.com:rowan-vr/maven-api-dist-generator.git</developerConnection>
+        <developerConnection>scm:git:git@github.com:rowan-vr/maven-api-dist-generator.git</developerConnection>
         <url>https://github.com/rowan-vr/maven-api-dist-generator/tree/master</url>
-      <tag>v1.0</tag>
   </scm>
 
     <developers>

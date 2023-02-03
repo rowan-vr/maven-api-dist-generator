@@ -7,8 +7,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="maven-interface-generator" />
-        <module name="maven-interfaces-plugin" />
+        <module name="maven-api-dist-generator" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="maven-interfaces-plugin" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>
