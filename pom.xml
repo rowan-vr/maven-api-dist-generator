@@ -4,8 +4,12 @@
 
     <groupId>dev.rvr</groupId>
     <artifactId>maven-api-dist-generator</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>maven-plugin</packaging>
+
+    <name>maven-api-dist-generator</name>
+    <description>A maven plugin to create an API distribution of your project with all method bodies removed</description>
+    <url>https://github.com/rowan-vr/maven-api-dist-generator</url>
 
     <licenses>
         <license>
@@ -19,7 +23,7 @@
         <connection>scm:git:git://github.com/rowan-vr/maven-api-dist-generator.git</connection>
         <developerConnection>scm:git:git@github.com:rowan-vr/maven-api-dist-generator.git</developerConnection>
         <url>https://github.com/rowan-vr/maven-api-dist-generator/tree/master</url>
-    <tag>HEAD</tag>
+        <tag>v1.0.0</tag>
   </scm>
 
     <developers>
@@ -39,12 +43,12 @@
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.7</version>
+                <version>1.6.13</version>
                 <extensions>true</extensions>
                 <configuration>
                     <serverId>ossrh</serverId>
                     <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                    <autoReleaseAfterClose>false</autoReleaseAfterClose>
                 </configuration>
             </plugin>
             <plugin>
